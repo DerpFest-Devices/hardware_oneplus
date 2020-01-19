@@ -3,4 +3,5 @@ service fingerprint-inscreen-1-0 /system_ext/bin/hw/lineage.biometrics.fingerpri
     class hal
     user system
     group system
+    priority -20
     shutdown critical
