@@ -88,6 +88,7 @@ public class Constants {
     static final int ACTION_VOLUME_DOWN = 10;
     static final int ACTION_VOLUME_UP = 11;
     static final int ACTION_AMBIENT_DISPLAY = 12;
+    static final int ACTION_WAKE_DEVICE = 13;
 
     // Holds <preference_key> -> <proc_node> mapping
     public static final Map<String, String> sBooleanNodePreferenceMap = new HashMap<>();
