@@ -438,6 +438,8 @@ LedVibratorDevice::LedVibratorDevice() {
     }
 
     mDetected = true;
+    mAmplitude = 1.0f;
+    mGain = 0x55;
 }
 
 int LedVibratorDevice::write_value(const char *file, const char *value) {
@@ -469,6 +471,19 @@ int LedVibratorDevice::write_value(const char *file, const char *value) {
     return ret;
 }
 
+int LedVibratorDevice::setAmplitude(float amplitude) {
+    int ret;
+
+    mAmplitude = amplitude;
+    int gain = mGain * mAmplitude;
+    char tmp[5];
+    snprintf(tmp, sizeof(tmp), "0x%x", gain);
+    ret = write_value(GAIN_PATH, tmp);
+    ALOGD("QTI Vibrator setAmplitude to %f with a gain of 0x%x", mAmplitude, gain);
+
+    return ret;
+}
+
 int LedVibratorDevice::on(int32_t timeoutMs) {
     int ret;
 
@@ -478,14 +493,16 @@ int LedVibratorDevice::on(int32_t timeoutMs) {
     if (gain > 128) {
         gain = 128;             // 0x80
     }
+    mGain = gain;
+    gain = gain * mAmplitude;
     ALOGD("QTI Vibrator on for %d ms with a gain of 0x%x", timeoutMs, gain);
     for (const auto &[path, value] : VIBRATOR_CONSTANTS[index]) {
         if (path == DURATION_PATH) {
-            char tmp[32];
+            char tmp[5];
             snprintf(tmp, sizeof(tmp), "%u\n", timeoutMs);
             ret = write_value(path.c_str(), tmp);
         } else if (path == GAIN_PATH) {
-            char tmp[32];
+            char tmp[5];
             snprintf(tmp, sizeof(tmp), "0x%x", gain);
             ret = write_value(path.c_str(), tmp);
         } else {
@@ -517,7 +534,8 @@ ndk::ScopedAStatus Vibrator::getCapabilities(int32_t* _aidl_return) {
 
     if (ledVib.mDetected) {
         *_aidl_return |= IVibrator::CAP_PERFORM_CALLBACK;
-        ALOGD("QTI Vibrator reporting capabilities: %d", *_aidl_return);
+        *_aidl_return |= IVibrator::CAP_AMPLITUDE_CONTROL; // we use this to control vibrator intensity
+        ALOGV("QTI Vibrator reporting capabilities: %d", *_aidl_return);
         return ndk::ScopedAStatus::ok();
     }
 
@@ -584,6 +602,28 @@ ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength es, const std
             for (const auto &[path, value] : it->second) {
                 if (path == "SLEEP") {
                     usleep(atoi(value.c_str()) * 1000);
+                } else if (path == GAIN_PATH) {
+                    char tmp[5];
+                    float gain = 0.0f;
+                    switch (es) {
+                        case EffectStrength::LIGHT:
+                            gain = 1.0f/3.0f;
+                            break;
+                        case EffectStrength::MEDIUM:
+                            gain = 2.0f/3.0f;
+                            break;
+                        case EffectStrength::STRONG:
+                            gain = 1.0f;
+                            break;
+                        default:
+                            gain = 1.0f;
+                            break;
+                    }
+                    uint32_t intVal;
+                    sscanf(value.c_str(), "%x", &intVal);
+                    intVal = intVal * gain;
+                    snprintf(tmp, sizeof(tmp), "0x%x", intVal);
+                    ledVib.write_value(path.c_str(), tmp);
                 } else {
                     ledVib.write_value(path.c_str(), value.c_str());
                 }
@@ -636,8 +676,13 @@ ndk::ScopedAStatus Vibrator::setAmplitude(float amplitude) {
     uint8_t tmp;
     int ret;
 
-    if (ledVib.mDetected)
-        return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_UNSUPPORTED_OPERATION));
+
+    if (ledVib.mDetected) {
+        ret = ledVib.setAmplitude(amplitude);
+        if (ret != 0)
+            return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
+        return ndk::ScopedAStatus::ok();
+    }
 
     ALOGD("Vibrator set amplitude: %f", amplitude);
 
@@ -706,4 +751,3 @@ ndk::ScopedAStatus Vibrator::alwaysOnDisable(int32_t id __unused) {
 }  // namespace hardware
 }  // namespace android
 }  // namespace aidl
-
