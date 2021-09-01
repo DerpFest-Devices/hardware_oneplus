@@ -27,9 +27,14 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import androidx.preference.PreferenceManager;
 
+import org.derp.device.DeviceExtras.TouchscreenGestureSettings;
+
 public class Startup extends BroadcastReceiver {
 
     private boolean mHBM = false;
+
+    private static final String TAG = "BootReceiver";
+    private static final String ONE_TIME_TUNABLE_RESTORE = "hardware_tunable_restored";
 
     @Override
     public void onReceive(final Context context, final Intent bootintent) {
@@ -44,6 +49,7 @@ public class Startup extends BroadcastReceiver {
         VibratorStrengthPreference.restore(context);
 
         boolean enabled = false;
+        TouchscreenGestureSettings.MainSettingsFragment.restoreTouchscreenGestureStates(context);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_DC_SWITCH, false);
         if (enabled) {
@@ -84,6 +90,17 @@ public class Startup extends BroadcastReceiver {
         mHBM = false;
         restore(WideModeSwitch.getFile(context), enabled);
         }
+    }
+
+
+    private boolean hasRestoredTunable(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean(ONE_TIME_TUNABLE_RESTORE, false);
+    }
+
+    private void setRestoredTunable(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences.edit().putBoolean(ONE_TIME_TUNABLE_RESTORE, true).apply();
     }
 
     private void restore(String file, boolean enabled) {

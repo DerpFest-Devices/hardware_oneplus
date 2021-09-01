@@ -4,7 +4,6 @@
      Copyright (C) 2021 The Evolution X Project
      Copyright (C) 2018 The Xiaomi-SDM660 Project
      Copyright (C) 2018-2021 crDroid Android Project
-
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -184,6 +183,17 @@
             android:icon="@drawable/ic_game_mode"
             android:summary="@string/game_mode_summary"
             android:title="@string/game_mode_title" />
+
+        <Preference
+            android:key="touchscreen_gesture_category"
+            android:icon="@drawable/ic_gestures_icon"
+            android:title="@string/touchscreen_gesture_settings_title"
+            android:summary="@string/touchscreen_gesture_settings_summary"
+            android:persistent="false" >
+            <intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="org.derp.device.DeviceExtras"
+                    android:targetClass="org.derp.device.DeviceExtras.TouchscreenGestureSettings" />
+        </Preference>
 
         <Preference
             android:icon="@drawable/ic_info_outline"
