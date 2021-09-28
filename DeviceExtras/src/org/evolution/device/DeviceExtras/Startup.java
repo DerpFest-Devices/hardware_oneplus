@@ -47,38 +47,42 @@ public class Startup extends BroadcastReceiver {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_DC_SWITCH, false);
         if (enabled) {
-        restore(DCModeSwitch.getFile(), enabled);
+        restore(DCModeSwitch.getFile(context), enabled);
                }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_DCI_SWITCH, false);
         if (enabled) {
         mHBM = false;
-        restore(DCIModeSwitch.getFile(), enabled);
+        restore(DCIModeSwitch.getFile(context), enabled);
                }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_HBM_SWITCH, false);
         if (enabled) {
-        restore(HBMModeSwitch.getFile(), enabled);
+        restore(HBMModeSwitch.getFile(context), enabled);
                }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_FPS_INFO, false);
         if (enabled) {
             context.startService(new Intent(context, FPSInfoService.class));
                }
+        enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_GAME_SWITCH, false);
+        if (enabled) {
+            restore(GameModeSwitch.getFile(context), enabled);
+               }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_SRGB_SWITCH, false);
         if (enabled) {
         mHBM = false;
-        restore(SRGBModeSwitch.getFile(), enabled);
+        restore(SRGBModeSwitch.getFile(context), enabled);
  	       }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_TOUCH_BOOST_SWITCH, false);
         if (enabled) {
-        restore(TouchboostModeSwitch.getFile(), enabled);
+        restore(TouchboostModeSwitch.getFile(context), enabled);
                }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_USB2_SWITCH, false);
         if (enabled) {
-        restore(USB2FastChargeModeSwitch.getFile(), enabled);
+        restore(USB2FastChargeModeSwitch.getFile(context), enabled);
                }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_WIDE_SWITCH, false);
         if (enabled) {
         mHBM = false;
-        restore(WideModeSwitch.getFile(), enabled);
+        restore(WideModeSwitch.getFile(context), enabled);
         }
     }
 

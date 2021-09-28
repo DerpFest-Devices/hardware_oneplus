@@ -126,32 +126,32 @@ public class PanelSettings extends PreferenceFragment implements RadioGroup.OnCh
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor edit = sharedPrefs.edit();
         if (checkedId == R.id.srgb_mode) {
-            FileUtils.writeValue(DCIModeSwitch.getFile(), "0");
+            FileUtils.writeValue(DCIModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_DCI_SWITCH, false);
-            FileUtils.writeValue(WideModeSwitch.getFile(), "0");
+            FileUtils.writeValue(WideModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_WIDE_SWITCH, false);
-            FileUtils.writeValue(SRGBModeSwitch.getFile(), "1");
+            FileUtils.writeValue(SRGBModeSwitch.getFile(getContext()), "1");
             edit.putBoolean(DeviceExtras.KEY_SRGB_SWITCH, true);
         } else if (checkedId == R.id.dci_mode) {
-            FileUtils.writeValue(SRGBModeSwitch.getFile(), "0");
+            FileUtils.writeValue(SRGBModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_SRGB_SWITCH, false);
-            FileUtils.writeValue(WideModeSwitch.getFile(), "0");
+            FileUtils.writeValue(WideModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_WIDE_SWITCH, false);
-            FileUtils.writeValue(DCIModeSwitch.getFile(), "1");
+            FileUtils.writeValue(DCIModeSwitch.getFile(getContext()), "1");
             edit.putBoolean(DeviceExtras.KEY_DCI_SWITCH, true);
         } else if (checkedId == R.id.wide_mode) {
-            FileUtils.writeValue(SRGBModeSwitch.getFile(), "0");
+            FileUtils.writeValue(SRGBModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_SRGB_SWITCH, false);
-            FileUtils.writeValue(DCIModeSwitch.getFile(), "0");
+            FileUtils.writeValue(DCIModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_DCI_SWITCH, false);
-            FileUtils.writeValue(WideModeSwitch.getFile(), "1");
+            FileUtils.writeValue(WideModeSwitch.getFile(getContext()), "1");
             edit.putBoolean(DeviceExtras.KEY_WIDE_SWITCH, true);
         } else if (checkedId == R.id.off_mode) {
-            FileUtils.writeValue(DCIModeSwitch.getFile(), "0");
+            FileUtils.writeValue(DCIModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_DCI_SWITCH, false);
-            FileUtils.writeValue(WideModeSwitch.getFile(), "0");
+            FileUtils.writeValue(WideModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_WIDE_SWITCH, false);
-            FileUtils.writeValue(SRGBModeSwitch.getFile(), "0");
+            FileUtils.writeValue(SRGBModeSwitch.getFile(getContext()), "0");
             edit.putBoolean(DeviceExtras.KEY_SRGB_SWITCH, false);
         }
         edit.commit();

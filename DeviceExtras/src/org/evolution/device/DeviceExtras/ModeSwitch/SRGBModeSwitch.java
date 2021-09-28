@@ -25,27 +25,28 @@ import androidx.preference.PreferenceManager;
 
 public class SRGBModeSwitch implements OnPreferenceChangeListener {
 
-    private static final String FILE = "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_srgb_color_mode";
+    private static final int NODE = R.string.node_srgb_mode_switch;
 
-    public static String getFile() {
-        if (FileUtils.fileWritable(FILE)) {
-            return FILE;
+    public static String getFile(Context context) {
+        String file = context.getString(NODE);
+        if (FileUtils.fileWritable(file)) {
+            return file;
         }
         return null;
     }
 
-    public static boolean isSupported() {
-        return FileUtils.fileWritable(getFile());
+    public static boolean isSupported(Context context) {
+        return FileUtils.fileWritable(getFile(context));
     }
 
     public static boolean isCurrentlyEnabled(Context context) {
-        return FileUtils.getFileValueAsBoolean(getFile(), false);
+        return FileUtils.getFileValueAsBoolean(getFile(context), false);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Boolean enabled = (Boolean) newValue;
-        FileUtils.writeValue(getFile(), enabled ? "1" : "0");
+        FileUtils.writeValue(getFile(preference.getContext()), enabled ? "1" : "0");
         return true;
     }
 }

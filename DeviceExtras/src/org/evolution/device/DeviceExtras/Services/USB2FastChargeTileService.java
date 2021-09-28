@@ -66,7 +66,7 @@ public class USB2FastChargeTileService extends TileService {
         super.onClick();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         enabled = USB2FastChargeModeSwitch.isCurrentlyEnabled(this);
-        FileUtils.writeValue(USB2FastChargeModeSwitch.getFile(), enabled ? "0" : "1");
+        FileUtils.writeValue(USB2FastChargeModeSwitch.getFile(this.getApplicationContext()), enabled ? "0" : "1");
         sharedPrefs.edit().putBoolean(DeviceExtras.KEY_USB2_SWITCH, enabled ? false : true).commit();
         //getQsTile().setLabel(enabled ? "USB 2.0 FC off" : "USB 2.0 FC On");
         getQsTile().setState(enabled ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);

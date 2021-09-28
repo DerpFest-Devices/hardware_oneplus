@@ -27,6 +27,8 @@ import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.util.Log;
 
+import org.evolution.device.DeviceExtras.R;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -53,7 +55,7 @@ public class PickupSensor implements SensorEventListener {
         mContext = context;
         mPowerManager = mContext.getSystemService(PowerManager.class);
         mSensorManager = mContext.getSystemService(SensorManager.class);
-        mSensor = DozeUtils.getSensor(mSensorManager, "oneplus.sensor.pickup");
+        mSensor = DozeUtils.getSensor(mSensorManager, context.getResources().getString(R.string.sensor_pickup));
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         mExecutorService = Executors.newSingleThreadExecutor();
     }

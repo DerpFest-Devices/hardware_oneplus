@@ -28,23 +28,20 @@ import androidx.preference.PreferenceViewHolder;
 
 public class AutoHBMThresholdPreference extends CustomSeekBarPreference {
 
-    private static int mMinVal = 0;
-    private static int mMaxVal = 60000;
-    private static int mDefVal = 20000;
-
     public AutoHBMThresholdPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mInterval = 1000;
+        mInterval = context.getResources().getInteger(R.integer.auto_hbm_threshold_preference_interval);
         mShowSign = false;
         mUnits = "";
         mContinuousUpdates = false;
-        mMinValue = mMinVal;
-        mMaxValue = mMaxVal;
+        int[] mAllValues = context.getResources().getIntArray(R.array.auto_hbm_threshold_preference_array);
+        mMinValue = mAllValues[1];
+        mMaxValue = mAllValues[2];
         mDefaultValueExists = true;
-        mDefaultValue = mDefVal;
+        mDefaultValue = mAllValues[0];
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        mValue = Integer.parseInt(sharedPrefs.getString(DeviceExtras.KEY_AUTO_HBM_THRESHOLD, "20000"));
+        mValue = Integer.parseInt(sharedPrefs.getString(DeviceExtras.KEY_AUTO_HBM_THRESHOLD, context.getString(R.string.auto_hbm_threshold_preference_default)));
 
         setPersistent(false);
     }

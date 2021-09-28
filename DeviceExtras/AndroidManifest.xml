@@ -190,6 +190,18 @@
             </intent-filter>
         </service>
 
+        <!-- Game Mode  Tile -->
+        <service
+            android:name=".GameModeTileService"
+            android:icon="@drawable/ic_game_mode"
+            android:label="@string/game_mode_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action
+                    android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
          <!-- KCalSettings Activity -->
         <activity
             android:name=".kcal.KCalSettingsActivity"

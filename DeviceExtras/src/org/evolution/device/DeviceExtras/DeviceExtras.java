@@ -41,6 +41,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceGroup;
@@ -63,27 +64,46 @@ public class DeviceExtras extends PreferenceFragment
 
     public static final String KEY_SETTINGS_PREFIX = "device_setting_";
 
+    public static final String KEY_CATEGORY_SLIDER = "slider";
+    public static final String KEY_CATEGORY_CPU = "cpu";
+    public static final String KEY_CATEGORY_DISPLAY = "display";
+    public static final String KEY_CATEGORY_FPS = "fps";
+    public static final String KEY_CATEGORY_TOUCHSCREEN = "touchscreen";
+    public static final String KEY_CATEGORY_SPEAKER_MIC = "speaker";
+    public static final String KEY_CATEGORY_USB = "usb";
+    public static final String KEY_CATEGORY_VIBRATOR = "vibrator";
+
+    public static final String KEY_TOUCH_BOOST_SWITCH = "touchboost";
+
+    public static final String KEY_DOZE = "advanced_doze_settings";
+    public static final String KEY_KCAL = "kcal";
+    public static final String KEY_PANEL_MODES = "panel_modes";
+    public static final String KEY_DC_SWITCH = "dc";
+    public static final String KEY_HBM_SWITCH = "hbm";
     public static final String KEY_AUTO_HBM_SWITCH = "auto_hbm";
     public static final String KEY_AUTO_HBM_THRESHOLD = "auto_hbm_threshold";
-    public static final String KEY_DC_SWITCH = "dc";
-    public static final String KEY_DCI_SWITCH = "dci";
-    public static final String KEY_DOZE = "advanced_doze_settings";
-    public static final String KEY_EAR_GAIN = "earpiece_gain";
+    public static final String KEY_HBM_INFO = "hbm_info";
+
     public static final String KEY_FPS_INFO = "fps_info";
     public static final String KEY_FPS_INFO_POSITION = "fps_info_position";
     public static final String KEY_FPS_INFO_COLOR = "fps_info_color";
     public static final String KEY_FPS_INFO_TEXT_SIZE = "fps_info_text_size";
+
     public static final String KEY_GAME_SWITCH = "game_mode";
-    public static final String KEY_HBM_SWITCH = "hbm";
-    public static final String KEY_KCAL = "kcal";
+
+    public static final String KEY_EAR_GAIN = "earpiece_gain";
     public static final String KEY_MIC_GAIN = "microphone_gain";
-    public static final String KEY_SRGB_SWITCH = "srgb";
-    public static final String KEY_TOUCH_BOOST_SWITCH = "touchboost";
+
     public static final String KEY_USB2_SWITCH = "usb2_fast_charge";
-    public static final String KEY_WIDE_SWITCH = "wide";
+
     public static final String KEY_VIBSTRENGTH = "vib_strength";
     public static final String KEY_CALL_VIBSTRENGTH = "vib_call_strength";
     public static final String KEY_NOTIF_VIBSTRENGTH = "vib_notif_strength";
+
+
+    public static final String KEY_DCI_SWITCH = "dci";
+    public static final String KEY_SRGB_SWITCH = "srgb";
+    public static final String KEY_WIDE_SWITCH = "wide";
 
     private static ListPreference mFpsInfoPosition;
     private static ListPreference mFpsInfoColor;
@@ -113,6 +133,31 @@ public class DeviceExtras extends PreferenceFragment
         addPreferencesFromResource(R.xml.main);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Context context = this.getContext();
+
+        // Slider Preferences
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsAlertSlider)) {
+            initNotificationSliderPreference();
+        }
+        else {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_SLIDER));
+        }
+
+        // Touch boost
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsTouchboost)) {
+            mTouchboostModeSwitch = (TwoStatePreference) findPreference(KEY_TOUCH_BOOST_SWITCH);
+            mTouchboostModeSwitch.setEnabled(TouchboostModeSwitch.isSupported(this.getContext()));
+            mTouchboostModeSwitch.setChecked(TouchboostModeSwitch.isCurrentlyEnabled(this.getContext()));
+            mTouchboostModeSwitch.setOnPreferenceChangeListener(new TouchboostModeSwitch());
+        }
+        else {
+            findPreference(KEY_TOUCH_BOOST_SWITCH).setVisible(false);
+            // Future : Add proper check for future in case more than 1 prop exists in CPU
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_CPU));
+        }
+
+        boolean display = false;
+
         // DozeSettings Activity
         mDozeSettings = (Preference)findPreference(KEY_DOZE);
         mDozeSettings.setOnPreferenceClickListener(preference -> {
@@ -129,80 +174,175 @@ public class DeviceExtras extends PreferenceFragment
             return true;
         });
 
+        // Panel Modes
+        display = display | isFeatureSupported(context, R.bool.config_deviceSupportsPanelModes);
+        if (!isFeatureSupported(context, R.bool.config_deviceSupportsPanelModes)) {
+            findPreference(KEY_PANEL_MODES).setVisible(false);
+        }
+
         // DC-Dimming
-        mDCModeSwitch = (TwoStatePreference) findPreference(KEY_DC_SWITCH);
-        mDCModeSwitch.setEnabled(DCModeSwitch.isSupported());
-        mDCModeSwitch.setChecked(DCModeSwitch.isCurrentlyEnabled(this.getContext()));
-        mDCModeSwitch.setOnPreferenceChangeListener(new DCModeSwitch());
+        display = display | isFeatureSupported(context, R.bool.config_deviceSupportsDCdimming);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsDCdimming)) {
+            mDCModeSwitch = (TwoStatePreference) findPreference(KEY_DC_SWITCH);
+            mDCModeSwitch.setEnabled(DCModeSwitch.isSupported(this.getContext()));
+            mDCModeSwitch.setChecked(DCModeSwitch.isCurrentlyEnabled(this.getContext()));
+            mDCModeSwitch.setOnPreferenceChangeListener(new DCModeSwitch());
+        }
+        else {
+            findPreference(KEY_DC_SWITCH).setVisible(false);
+        }
 
         // HBM
-        mHBMModeSwitch = (TwoStatePreference) findPreference(KEY_HBM_SWITCH);
-        mHBMModeSwitch.setEnabled(HBMModeSwitch.isSupported());
-        mHBMModeSwitch.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceExtras.KEY_HBM_SWITCH, false));
-        mHBMModeSwitch.setOnPreferenceChangeListener(this);
+        display = display | isFeatureSupported(context, R.bool.config_deviceSupportsHBM);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsHBM)) {
+            mHBMModeSwitch = (TwoStatePreference) findPreference(KEY_HBM_SWITCH);
+            mHBMModeSwitch.setEnabled(HBMModeSwitch.isSupported(getContext()));
+            mHBMModeSwitch.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceExtras.KEY_HBM_SWITCH, false));
+            mHBMModeSwitch.setOnPreferenceChangeListener(this);
+        }
+        else {
+            findPreference(KEY_HBM_SWITCH).setVisible(false);
+        }
 
         // AutoHBM
-        mAutoHBMSwitch = (TwoStatePreference) findPreference(KEY_AUTO_HBM_SWITCH);
-        mAutoHBMSwitch.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceExtras.KEY_AUTO_HBM_SWITCH, false));
-        mAutoHBMSwitch.setOnPreferenceChangeListener(this);
+        display = display | isFeatureSupported(context, R.bool.config_deviceSupportsAutoHBM);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsAutoHBM)) {
+            mAutoHBMSwitch = (TwoStatePreference) findPreference(KEY_AUTO_HBM_SWITCH);
+            mAutoHBMSwitch.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceExtras.KEY_AUTO_HBM_SWITCH, false));
+            mAutoHBMSwitch.setOnPreferenceChangeListener(this);
+        }
+        else {
+            findPreference(KEY_AUTO_HBM_SWITCH).setVisible(false);
+            findPreference(KEY_AUTO_HBM_THRESHOLD).setVisible(false);
+            findPreference(KEY_HBM_INFO).setVisible(false);
+        }
+
+        if (!display) {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_DISPLAY));
+        }
 
         // FPS
-        mFpsInfo = (SwitchPreference) findPreference(KEY_FPS_INFO);
-        mFpsInfo.setChecked(prefs.getBoolean(KEY_FPS_INFO, false));
-        mFpsInfo.setOnPreferenceChangeListener(this);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsFPS)) {
+            mFpsInfo = (SwitchPreference) findPreference(KEY_FPS_INFO);
+            mFpsInfo.setChecked(prefs.getBoolean(KEY_FPS_INFO, false));
+            mFpsInfo.setOnPreferenceChangeListener(this);
 
-        mFpsInfoPosition = (ListPreference) findPreference(KEY_FPS_INFO_POSITION);
-        mFpsInfoPosition.setOnPreferenceChangeListener(this);
+            mFpsInfoPosition = (ListPreference) findPreference(KEY_FPS_INFO_POSITION);
+            mFpsInfoPosition.setOnPreferenceChangeListener(this);
 
-        mFpsInfoColor = (ListPreference) findPreference(KEY_FPS_INFO_COLOR);
-        mFpsInfoColor.setOnPreferenceChangeListener(this);
+            mFpsInfoColor = (ListPreference) findPreference(KEY_FPS_INFO_COLOR);
+            mFpsInfoColor.setOnPreferenceChangeListener(this);
 
-        mFpsInfoTextSizePreference = (CustomSeekBarPreference) findPreference(KEY_FPS_INFO_TEXT_SIZE);
-        mFpsInfoTextSizePreference.setOnPreferenceChangeListener(this);
+            mFpsInfoTextSizePreference = (CustomSeekBarPreference) findPreference(KEY_FPS_INFO_TEXT_SIZE);
+            mFpsInfoTextSizePreference.setOnPreferenceChangeListener(this);
+        }
+        else {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_FPS));
+        }
 
-        // Slider Preferences
-        initNotificationSliderPreference();
+        // Game Mode
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsGameMode)) {
+            mGameModeSwitch = (TwoStatePreference) findPreference(KEY_GAME_SWITCH);
+            mGameModeSwitch.setEnabled(GameModeSwitch.isSupported(this.getContext()));
+            mGameModeSwitch.setChecked(GameModeSwitch.isCurrentlyEnabled(this.getContext()));
+            mGameModeSwitch.setOnPreferenceChangeListener(new GameModeSwitch());
+        }
+        else {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_TOUCHSCREEN));
+        }
+
+        boolean speakerSection = false;
 
         // Earpiece gain
-        mEarGain = (EarGainPreference) findPreference(KEY_EAR_GAIN);
-        if (mEarGain != null) {
-            mEarGain.setEnabled(EarGainPreference.isSupported());
+        speakerSection = speakerSection | isFeatureSupported(context, R.bool.config_deviceSupportsEarGain);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsEarGain)) {
+            mEarGain = (EarGainPreference) findPreference(KEY_EAR_GAIN);
+            if (mEarGain != null) {
+                mEarGain.setEnabled(EarGainPreference.isSupported(getContext()));
+            }
+        }
+        else {
+            findPreference(KEY_EAR_GAIN).setVisible(false);
         }
 
         // Microphone gain
-        mMicGain = (MicGainPreference) findPreference(KEY_MIC_GAIN);
-        if (mMicGain != null) {
-            mMicGain.setEnabled(MicGainPreference.isSupported());
+        speakerSection = speakerSection | isFeatureSupported(context, R.bool.config_deviceSupportsMicGain);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsMicGain)) {
+            mMicGain = (MicGainPreference) findPreference(KEY_MIC_GAIN);
+            if (mMicGain != null) {
+                mMicGain.setEnabled(MicGainPreference.isSupported(getContext()));
+            }
+        }
+        else {
+            findPreference(KEY_MIC_GAIN).setVisible(false);
         }
 
-        // Touchboost
-        mTouchboostModeSwitch = (TwoStatePreference) findPreference(KEY_TOUCH_BOOST_SWITCH);
-        mTouchboostModeSwitch.setEnabled(TouchboostModeSwitch.isSupported());
-        mTouchboostModeSwitch.setChecked(TouchboostModeSwitch.isCurrentlyEnabled(this.getContext()));
-        mTouchboostModeSwitch.setOnPreferenceChangeListener(new TouchboostModeSwitch());
+        if (!speakerSection) {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_SPEAKER_MIC));
+        }
 
         // USB2 Force FastCharge
-        mUSB2FastChargeModeSwitch = (TwoStatePreference) findPreference(KEY_USB2_SWITCH);
-        mUSB2FastChargeModeSwitch.setEnabled(USB2FastChargeModeSwitch.isSupported());
-        mUSB2FastChargeModeSwitch.setChecked(USB2FastChargeModeSwitch.isCurrentlyEnabled(this.getContext()));
-        mUSB2FastChargeModeSwitch.setOnPreferenceChangeListener(new USB2FastChargeModeSwitch());
-
-        // Vibrator
-        mVibratorStrength = (VibratorStrengthPreference) findPreference(KEY_VIBSTRENGTH);
-        if (mVibratorStrength != null) {
-            mVibratorStrength.setEnabled(VibratorStrengthPreference.isSupported());
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsUSB2FC)) {
+            mUSB2FastChargeModeSwitch = (TwoStatePreference) findPreference(KEY_USB2_SWITCH);
+            mUSB2FastChargeModeSwitch.setEnabled(USB2FastChargeModeSwitch.isSupported(this.getContext()));
+            mUSB2FastChargeModeSwitch.setChecked(USB2FastChargeModeSwitch.isCurrentlyEnabled(this.getContext()));
+            mUSB2FastChargeModeSwitch.setOnPreferenceChangeListener(new USB2FastChargeModeSwitch());
+        }
+        else {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_USB));
         }
 
+        boolean vibrationAll = false;
+
+        // Vibrator
+        vibrationAll = vibrationAll | isFeatureSupported(context, R.bool.config_deviceSupportsSysVib);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsSysVib)) {
+            mVibratorStrength = (VibratorStrengthPreference) findPreference(KEY_VIBSTRENGTH);
+            if (mVibratorStrength != null) {
+                mVibratorStrength.setEnabled(VibratorStrengthPreference.isSupported(this.getContext()));
+            }
+        }
+        else {
+            findPreference(KEY_VIBSTRENGTH).setVisible(false);
+        }
+
+
         // Vibrator - Call
-        mVibratorCallStrength = (VibratorCallStrengthPreference) findPreference(KEY_CALL_VIBSTRENGTH );
-        if (mVibratorCallStrength != null) {
-            mVibratorCallStrength.setEnabled(VibratorCallStrengthPreference.isSupported());
+        vibrationAll = vibrationAll | isFeatureSupported(context, R.bool.config_deviceSupportsCallVib);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsCallVib)) {
+            mVibratorCallStrength = (VibratorCallStrengthPreference) findPreference(KEY_CALL_VIBSTRENGTH );
+            if (mVibratorCallStrength != null) {
+                mVibratorCallStrength.setEnabled(VibratorCallStrengthPreference.isSupported(this.getContext()));
+            }
+        }
+        else {
+            findPreference(KEY_CALL_VIBSTRENGTH).setVisible(false);
         }
 
         // Vibrator - Notification
-        mVibratorNotifStrength = (VibratorNotifStrengthPreference) findPreference(KEY_NOTIF_VIBSTRENGTH );
-        if (mVibratorNotifStrength != null) {
-            mVibratorNotifStrength.setEnabled(VibratorNotifStrengthPreference.isSupported());
+        vibrationAll = vibrationAll | isFeatureSupported(context, R.bool.config_deviceSupportsNotifVib);
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsNotifVib)) {
+            mVibratorNotifStrength = (VibratorNotifStrengthPreference) findPreference(KEY_NOTIF_VIBSTRENGTH);
+            if (mVibratorNotifStrength != null) {
+                mVibratorNotifStrength.setEnabled(VibratorNotifStrengthPreference.isSupported(this.getContext()));
+            }
+        }
+        else {
+            findPreference(KEY_NOTIF_VIBSTRENGTH).setVisible(false);
+        }
+
+        if (!vibrationAll) {
+            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_VIBRATOR));
+        }
+    }
+
+    private static boolean isFeatureSupported(Context ctx, int feature) {
+        try {
+            return ctx.getResources().getBoolean(feature);
+        }
+        // TODO: Replace with proper exception type class
+        catch (Exception e) {
+            return false;
         }
     }
 
@@ -234,8 +374,12 @@ public class DeviceExtras extends PreferenceFragment
     public void onResume() {
         super.onResume();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        mHBMModeSwitch.setChecked(HBMModeSwitch.isCurrentlyEnabled(this.getContext()));
-        mFpsInfo.setChecked(isFPSOverlayRunning());
+        if (isFeatureSupported(this.getContext(), R.bool.config_deviceSupportsHBM)) {
+            mHBMModeSwitch.setChecked(HBMModeSwitch.isCurrentlyEnabled(this.getContext()));
+        }
+        if (isFeatureSupported(this.getContext(), R.bool.config_deviceSupportsFPS)) {
+            mFpsInfo.setChecked(isFPSOverlayRunning());
+        }
     }
 
     @Override
@@ -248,7 +392,7 @@ public class DeviceExtras extends PreferenceFragment
             return true;
         } else if (preference == mHBMModeSwitch) {
             Boolean enabled = (Boolean) newValue;
-            FileUtils.writeValue(HBMModeSwitch.getFile(), enabled ? "5" : "0");
+            FileUtils.writeValue(HBMModeSwitch.getFile(getContext()), enabled ? "5" : "0");
             Intent hbmIntent = new Intent(this.getContext(),
                     org.evolution.device.DeviceExtras.HBMModeService.class);
             if (enabled) {

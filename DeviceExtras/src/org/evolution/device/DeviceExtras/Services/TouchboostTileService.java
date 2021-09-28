@@ -66,7 +66,7 @@ public class TouchboostTileService extends TileService {
         super.onClick();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         enabled = TouchboostModeSwitch.isCurrentlyEnabled(this);
-        FileUtils.writeValue(TouchboostModeSwitch.getFile(), enabled ? "0" : "1");
+        FileUtils.writeValue(TouchboostModeSwitch.getFile(this.getApplicationContext()), enabled ? "0" : "1");
         sharedPrefs.edit().putBoolean(DeviceExtras.KEY_TOUCH_BOOST_SWITCH, enabled ? false : true).commit();
         //getQsTile().setLabel(enabled ? "Touchboost off" : "Touchboost On");
         getQsTile().setState(enabled ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);

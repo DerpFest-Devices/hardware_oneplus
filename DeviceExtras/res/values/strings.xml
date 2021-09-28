@@ -169,6 +169,12 @@
     <string name="mic_gain_title">Microphone gain</string>
     <string name="mic_gain_summary">Define the amplitude of the microphone</string>
 
+    <!-- Touchscreen -->
+    <string name="touchscreen_title">Touchscreen</string>
+    <string name="game_mode_title">Game mode</string>
+    <string name="game_mode_summary">Force enable 240Hz sampling rate for all applications</string>
+    <string name="game_mode_warning">May decrease battery life</string>
+
     <!-- USB -->
     <string name="usb_title">USB</string> 
     <string name="usb2_fc_title">USB 2.0 fast charge</string>

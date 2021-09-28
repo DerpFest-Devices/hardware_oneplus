@@ -16,7 +16,7 @@ import android.os.PowerManager;
 import androidx.preference.PreferenceManager;
 
 public class AutoHBMService extends Service {
-    private static final String HBM_FILE = "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/hbm";
+    private static final int HBM_NODE = R.string.node_auto_hbm_service;
 
     private static boolean mAutoHBMActive = false;
 
@@ -37,16 +37,24 @@ public class AutoHBMService extends Service {
         enableHBM(false);
     }
 
+    private String getFile() {
+        String file = getApplicationContext().getString(HBM_NODE);
+        if (FileUtils.fileWritable(file)) {
+            return file;
+        }
+        return null;
+    }
+
     private void enableHBM(boolean enable) {
         if (enable) {
-            FileUtils.writeValue(HBM_FILE, "5");
+            FileUtils.writeValue(getFile(), "5");
         } else {
-            FileUtils.writeValue(HBM_FILE, "0");
+            FileUtils.writeValue(getFile(), "0");
         }
     }
 
     private boolean isCurrentlyEnabled() {
-        return FileUtils.getFileValueAsBoolean(HBM_FILE, false);
+        return FileUtils.getFileValueAsBoolean(getFile(), false);
     }
 
     SensorEventListener mSensorEventListener = new SensorEventListener() {

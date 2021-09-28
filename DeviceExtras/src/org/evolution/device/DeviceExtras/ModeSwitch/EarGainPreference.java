@@ -29,47 +29,55 @@ import java.util.List;
 
 public class EarGainPreference extends CustomSeekBarPreference {
 
-    private static int mMinVal = -10;
-    private static int mMaxVal = 20;
-    private static int mDefVal = 0;
+    private static int mDefVal;
 
-    private static final String FILE_LEVEL = "/sys/kernel/sound_control/earpiece_gain";
+    private static final int NODE_LEVEL = R.string.node_ear_gain_preference;
 
     public EarGainPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mInterval = 1;
+        mInterval = context.getResources().getInteger(R.integer.ear_gain_preference_interval);
         mShowSign = false;
         mUnits = "";
         mContinuousUpdates = false;
-        mMinValue = mMinVal;
-        mMaxValue = mMaxVal;
+        int[] mAllValues = context.getResources().getIntArray(R.array.ear_gain_preference_array);
+        mMinValue = mAllValues[1];
+        mMaxValue = mAllValues[2];
         mDefaultValueExists = true;
+        mDefVal = mAllValues[0];
         mDefaultValue = mDefVal;
-        mValue = Integer.parseInt(loadValue());
+        mValue = Integer.parseInt(loadValue(context));
 
         setPersistent(false);
     }
 
-    public static boolean isSupported() {
-        return FileUtils.fileWritable(FILE_LEVEL);
+    private static String getFile(Context context) {
+        String file = context.getResources().getString(NODE_LEVEL);
+        if (FileUtils.fileWritable(file)) {
+            return file;
+        }
+        return null;
+    }
+
+    public static boolean isSupported(Context context) {
+        return FileUtils.fileWritable(getFile(context));
     }
 
     public static void restore(Context context) {
-        if (!isSupported()) {
+        if (!isSupported(context)) {
             return;
         }
 
         String storedValue = PreferenceManager.getDefaultSharedPreferences(context).getString(DeviceExtras.KEY_EAR_GAIN, String.valueOf(mDefVal));
-        FileUtils.writeValue(FILE_LEVEL, storedValue);
+        FileUtils.writeValue(getFile(context), storedValue);
     }
 
-    public static String loadValue() {
-        return FileUtils.getFileValue(FILE_LEVEL, String.valueOf(mDefVal));
+    public static String loadValue(Context context) {
+        return FileUtils.getFileValue(getFile(context), String.valueOf(mDefVal));
     }
 
     private void saveValue(String newValue) {
-        FileUtils.writeValue(FILE_LEVEL, newValue);
+        FileUtils.writeValue(getFile(getContext()), newValue);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
         editor.putString(DeviceExtras.KEY_EAR_GAIN, newValue);
         editor.apply();

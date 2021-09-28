@@ -61,7 +61,7 @@ public class FPSInfoService extends Service {
     private String mFps = null;
     private int mPosition;
 
-    private static final String MEASURED_FPS = "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/sde-crtc-0/measured_fps";
+    private static final int MEASURED_FPS_NODE = R.string.node_fps_info_service;
 
     private static final String POSITION_KEY = "device_settings_fps_position";
     private static final String COLOR_KEY = "device_settings_fps_color";
@@ -218,6 +218,15 @@ public class FPSInfoService extends Service {
         }
     }
 
+    private String getFile() {
+        String file = getApplicationContext().getString(MEASURED_FPS_NODE);
+        if (FileUtils.fileWritable(file)) {
+            return file;
+        }
+        return null;
+    }
+
+
     protected class CurFPSThread extends Thread {
         private boolean mInterrupt = false;
         private Handler mHandler;
@@ -236,7 +245,7 @@ public class FPSInfoService extends Service {
                 while (!mInterrupt) {
                     sleep(1000);
                     StringBuffer sb = new StringBuffer();
-                    String fpsVal = FPSInfoService.readOneLine(MEASURED_FPS);
+                    String fpsVal = FPSInfoService.readOneLine(getFile());
                     mHandler.sendMessage(mHandler.obtainMessage(1, fpsVal));
                 }
             } catch (InterruptedException e) {

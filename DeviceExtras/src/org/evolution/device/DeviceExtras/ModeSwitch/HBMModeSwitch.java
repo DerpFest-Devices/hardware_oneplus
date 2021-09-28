@@ -21,20 +21,21 @@ import android.content.Context;
 
 public class HBMModeSwitch {
 
-    private static final String FILE = "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm/card0/card0-DSI-1/hbm";
+    private static final int NODE = R.string.node_hbm_mode_switch;
 
-    public static String getFile() {
-        if (FileUtils.fileWritable(FILE)) {
-            return FILE;
+    public static String getFile(Context context) {
+        String file = context.getResources().getString(NODE);
+        if (FileUtils.fileWritable(file)) {
+            return file;
         }
         return null;
     }
 
-    public static boolean isSupported() {
-        return FileUtils.fileWritable(getFile());
+    public static boolean isSupported(Context context) {
+        return FileUtils.fileWritable(getFile(context));
     }
 
     public static boolean isCurrentlyEnabled(Context context) {
-        return FileUtils.getFileValueAsBoolean(getFile(), false);
+        return FileUtils.getFileValueAsBoolean(getFile(context), false);
     }
 }

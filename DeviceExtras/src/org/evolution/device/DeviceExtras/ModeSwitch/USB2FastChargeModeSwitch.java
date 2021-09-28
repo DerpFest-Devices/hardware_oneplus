@@ -28,27 +28,28 @@ import org.evolution.device.DeviceExtras.DeviceExtras;
 
 public class USB2FastChargeModeSwitch implements OnPreferenceChangeListener {
 
-    private static final String FILE = "/sys/kernel/fast_charge/force_fast_charge";
+    private static final int NODE = R.string.node_usb2_fast_charge_mode_switch;
 
-    public static String getFile() {
-        if (FileUtils.fileWritable(FILE)) {
-            return FILE;
+    public static String getFile(Context context) {
+        String file = context.getString(NODE);
+        if (FileUtils.fileWritable(file)) {
+            return file;
         }
         return null;
     }
 
-    public static boolean isSupported() {
-        return FileUtils.fileWritable(getFile());
+    public static boolean isSupported(Context context) {
+        return FileUtils.fileWritable(getFile(context));
     }
 
     public static boolean isCurrentlyEnabled(Context context) {
-        return FileUtils.getFileValueAsBoolean(getFile(), false);
+        return FileUtils.getFileValueAsBoolean(getFile(context), false);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Boolean enabled = (Boolean) newValue;
-        FileUtils.writeValue(getFile(), enabled ? "1" : "0");
+        FileUtils.writeValue(getFile(preference.getContext()), enabled ? "1" : "0");
         return true;
     }
 }

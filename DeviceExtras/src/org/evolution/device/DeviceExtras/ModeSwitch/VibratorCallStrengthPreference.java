@@ -29,51 +29,64 @@ import java.util.List;
 
 public class VibratorCallStrengthPreference extends CustomSeekBarPreference {
 
-    private static int mMinVal = 116;
-    private static int mMaxVal = 2088;
-    private static int mDefVal = 500;
     private Vibrator mVibrator;
 
-    private static final String FILE_LEVEL = "/sys/devices/platform/soc/c440000.qcom,spmi/spmi-0/spmi0-03/c440000.qcom,spmi:qcom,pmi8998@3:qcom,haptics@c000/leds/vibrator/vmax_mv_call";
-    private static final long testVibrationPattern[] = {0,250};
+    private static final int NODE_LEVEL = R.string.node_vibrator_call_strength_preference;
+    private static long testVibrationPattern[];
+    private static int mDefVal;
 
     public VibratorCallStrengthPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mInterval = 100;
+        mInterval = context.getResources().getInteger(R.integer.vibrator_call_strength_preference_interval);
         mShowSign = false;
         mUnits = "";
         mContinuousUpdates = false;
-        mMinValue = mMinVal;
-        mMaxValue = mMaxVal;
+        int[] mAllValues = context.getResources().getIntArray(R.array.vibrator_call_strength_preference_array);
+        mMinValue = mAllValues[1];
+        mMaxValue = mAllValues[2];
         mDefaultValueExists = true;
-        mDefaultValue = mDefVal;
-        mValue = Integer.parseInt(loadValue());
+        mDefaultValue = mAllValues[0];
+        mDefVal = mAllValues[0];
+        mValue = Integer.parseInt(loadValue(context));
+        int[] tempVibrationPattern = context.getResources().getIntArray(R.array.test_vibration_pattern);
+        testVibrationPattern = new long[tempVibrationPattern.length];
+        for (int i = 0; i < tempVibrationPattern.length; i++) {
+            testVibrationPattern[i] = tempVibrationPattern[i];
+        }
 
         setPersistent(false);
 
         mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
-    public static boolean isSupported() {
-        return FileUtils.fileWritable(FILE_LEVEL);
+    private static String getFile(Context context) {
+        String file = context.getString(NODE_LEVEL);
+        if (FileUtils.fileWritable(file)) {
+            return file;
+        }
+        return null;
+    }
+
+    public static boolean isSupported(Context context) {
+        return FileUtils.fileWritable(getFile(context));
     }
 
     public static void restore(Context context) {
-        if (!isSupported()) {
+        if (!isSupported(context)) {
             return;
         }
 
         String storedValue = PreferenceManager.getDefaultSharedPreferences(context).getString(DeviceExtras.KEY_CALL_VIBSTRENGTH , String.valueOf(mDefVal));
-        FileUtils.writeValue(FILE_LEVEL, storedValue);
+        FileUtils.writeValue(getFile(context), storedValue);
     }
 
-    public static String loadValue() {
-        return FileUtils.getFileValue(FILE_LEVEL, String.valueOf(mDefVal));
+    public static String loadValue(Context context) {
+        return FileUtils.getFileValue(getFile(context), String.valueOf(mDefVal));
     }
 
     private void saveValue(String newValue) {
-        FileUtils.writeValue(FILE_LEVEL, newValue);
+        FileUtils.writeValue(getFile(getContext()), newValue);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
         editor.putString(DeviceExtras.KEY_CALL_VIBSTRENGTH, newValue);
         editor.apply();
