@@ -30,7 +30,7 @@
         android:key="cat_colormanagement"
         android:title="@string/cat_colormanagement">
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference 
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference 
             android:defaultValue="256"
             android:dependency="kcal_enabled"
             android:key="color_red"
@@ -38,7 +38,7 @@
             android:icon="@drawable/ic_r"
             android:title="@string/color_red" />
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference
             android:defaultValue="256"
             android:dependency="kcal_enabled"
             android:key="color_green"
@@ -46,7 +46,7 @@
             android:icon="@drawable/ic_g"
             android:title="@string/color_green" />
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference
             android:defaultValue="256"
             android:dependency="kcal_enabled"
             android:key="color_blue"
@@ -60,7 +60,7 @@
         android:key="cat_calibration"
         android:title="@string/cat_calibration">
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference
             android:defaultValue="127"
             android:dependency="kcal_enabled"
             android:key="saturation"
@@ -68,7 +68,7 @@
             android:icon="@drawable/ic_s"
             android:title="@string/saturation" />
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference
             android:defaultValue="127"
             android:dependency="kcal_enabled"
             android:key="value"
@@ -76,7 +76,7 @@
             android:icon="@drawable/ic_v"
             android:title="@string/value" />
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference
             android:defaultValue="127"
             android:dependency="kcal_enabled"
             android:key="contrast"
@@ -84,7 +84,7 @@
             android:icon="@drawable/ic_c"
             android:title="@string/contrast" />
 
-        <org.evolution.device.DeviceExtras.CustomSeekBarPreference
+        <org.derp.device.DeviceExtras.CustomSeekBarPreference
             android:defaultValue="0"
             android:dependency="kcal_enabled"
             android:key="hue"
