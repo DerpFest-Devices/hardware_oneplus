@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2014-2016 The OmniROM Project
+     Copyright (C) 2021 The Evolution X Project
+     Copyright (C) 2018 The Xiaomi-SDM660 Project
+     Copyright (C) 2018-2021 crDroid Android Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+    <!-- Device Extras -->
+    <string name="device_title">Device Extras</string>
+    <string name="device_summary">Adjust device specific settings</string>
+	
+    <!-- Alert slider -->
+    <string name="notification_slider_category_title">Alert slider</string>
+    <string name="notification_slider_title">Alert slider settings</string>
+    <string name="notification_slider_selection_dialog_title">Action</string>
+    <string name="notification_slider_top_position">Top position</string>
+    <string name="notification_slider_middle_position">Middle position</string>
+    <string name="notification_slider_bottom_position">Bottom position</string>
+    <string name="notification_slider_mode_total_silence">Total silence</string>
+    <string name="notification_slider_mode_alarms_only">Alarms only</string>
+    <string name="notification_slider_mode_priority_only">Priority only</string>
+    <string name="notification_slider_mode_none">All</string>
+    <string name="notification_slider_usage_title">Use slider for</string>
+    <string name="notification_slider_for_notification">Notification</string>
+    <string name="notification_slider_for_flashlight">Flashlight</string>
+    <string name="notification_slider_for_brightness">Brightness</string>
+    <string name="notification_slider_for_rotation">Rotation</string>
+    <string name="notification_slider_for_ringer">Ringer</string>
+    <string name="notification_slider_for_notification_ringer">Notification and ringer</string>
+    <string name="notification_slider_flashlight_off">Off</string>
+    <string name="notification_slider_flashlight_on">On</string>
+    <string name="notification_slider_flashlight_blink">Blink</string>
+    <string name="notification_slider_brightness_auto">Auto</string>
+    <string name="notification_slider_brightness_brightest">Brightest</string>
+    <string name="notification_slider_brightness_darkest">Darkest</string>
+    <string name="notification_slider_rotation_auto">Auto</string>
+    <string name="notification_slider_rotation_portrait">Portrait</string>
+    <string name="notification_slider_rotation_landscape_90">Landscape (90°)</string>
+    <string name="notification_slider_rotation_landscape_270">Landscape (270°)</string>
+    <string name="notification_slider_ringer_normal">Normal</string>
+    <string name="notification_slider_ringer_vibrate">Vibrate</string>
+    <string name="notification_slider_ringer_silent">Silent</string>
+
+    <!-- CPU -->
+    <string name="category_cpu">CPU</string>
+    <string name="touchboost_title">Touchboost</string>
+    <string name="touchboost_summary">Boost CPU on touchscreen input</string>
+
+    <!-- Display -->
+    <string name="display_title">Display</string>
+    <string name="dc_mode_title">DC-dimming</string>
+    <string name="dc_mode_summary">Dim backlight by lowering DC current draw</string>
+    <string name="hbm_mode_title">High brightness mode</string>
+    <string name="hbm_mode_summary">Enable peak luminance</string>
+    <string name="hbm_mode_warning">Long time usage of High brightness mode may damage your display</string>
+    <string name="auto_hbm_title">Automatic high brightness mode</string>
+    <string name="auto_hbm_summary">Enable peak luminance based on sunlight</string>
+    <string name="auto_hbm_threshold_title"></string>
+    <string name="auto_hbm_threshold_summary">threshold (lux)</string>
+    <string name="panel_modes_title">Panel modes</string>
+    <string name="panel_modes_summary">Modes for panel color correction</string>
+    <string name="off_mode_title">Off</string>
+    <string name="srgb_mode_title">sRGB mode</string>
+    <string name="dci_mode_title">DCI-P3 wide colour gamut mode</string>
+    <string name="wide_mode_title">Wide colour mode</string>
+
+     <!-- FPS Info -->
+    <string name="fps_title">Measured FPS</string>
+    <string name="fps_info_title">FPS overlay</string>
+    <string name="fps_info_summary">Show overlay with current frames per second</string>
+    <string name="fps_info_color_title">Text color</string>
+    <string name="fps_info_color_green">Green</string>
+    <string name="fps_info_color_red">Red</string>
+    <string name="fps_info_color_blue">Blue</string>
+    <string name="fps_info_color_yellow">Yellow</string>
+    <string name="fps_info_color_black">Black</string>
+    <string name="fps_info_color_accent">Follow System</string>
+    <string name="fps_info_position_title">Overlay position</string>
+    <string name="fps_info_position_top_left">Top left</string>
+    <string name="fps_info_position_top_center">Top center</string>
+    <string name="fps_info_position_top_right">Top right</string>
+    <string name="fps_info_position_bottom_left">Bottom left</string>
+    <string name="fps_info_position_bottom_center">Bottom center</string>
+    <string name="fps_info_position_bottom_right">Bottom right</string>
+    <string name="fps_info_text_size_title">Text size</string>
+
+    <!-- Doze -->
+    <string name="ambient_display_title">Ambient display</string>
+    <string name="ambient_display_enable_title">Ambient display</string>
+    <string name="ambient_display_enable_summary">Wake screen when you receive notifications</string>
+    <string name="ambient_display_gestures_title">Ambient display gestures</string>
+    <string name="ambient_display_gestures_summary">Additional gestures to wake the screen</string>
+    <string name="ambient_display_summary">Wake screen when you receive notifications</string>
+    <string name="ambient_display_always_on_title">Always on</string>
+    <string name="dialog_ok">OK</string>
+    <string name="disabled">Disabled</string>
+    <string name="doze_panel_title">Doze</string>
+    <string name="doze_settings_help_text">These features use sensor events to launch a doze notification pulse. The chosen sensor is only enabled when the device receives a notification, this helps to reduce battery usage. There is also an option to enable the chosen sensor as soon as the screen turns off, this will cause higher battery usage.</string>
+    <string name="doze_settings_help_title">Help</string>
+    <string name="pickup_sensor_title">Pickup sensor</string>
+    <string name="pick_up_gesture_title">Pick-up</string>
+    <string name="pick_up_gesture_summary">Pulse notifications on pick-up</string>
+    <string name="pick_up_wake_gesture_summary">Wake device on pick-up</string>
+    <string name="pocket_gesture_title">Pocket</string>
+    <string name="pocket_gesture_summary">Pulse notifications on removal from pocket</string>
+    <string name="proximity_sensor_title">Proximity sensor</string>
+    <string name="ambient_display_always_on_summary">Show time, notification icons, and other info. Increased battery usage.</string>
+    <string name="switch_bar_off">Off</string>
+    <string name="switch_bar_on">On</string>
+
+    <!-- Kcal -->
+    <string name="device_kcal_title">Color calibration</string>
+    <string name="kcal_enabled_summary">Calibrate display via KCAL</string>
+    <string name="kcal_warning">Ensure sRGB color mode is enabled for optimal performance!</string>
+    <string name="advanced_settings_kcal">Display color calibration</string>
+    <string name="cat_colormanagement">Color settings</string>
+    <string name="cat_calibration">Display calibration</string>
+    <string name="kcal_enabled_title">Enable KCAL</string>
+    <string name="color_red">Red</string>
+    <string name="color_green">Green</string>
+    <string name="color_blue">Blue</string>
+    <string name="saturation">Saturation</string>
+    <string name="value">Value</string>
+    <string name="contrast">Contrast</string>
+    <string name="hue">Hue</string>
+    <string name="presets_dialog_title">Select preset</string>
+    <string name="preset_version_1">Version 1</string>
+    <string name="preset_version_2">Version 2</string>
+    <string name="preset_version_3">Version 3</string>
+    <string name="preset_triluminous">Triluminous</string>
+    <string name="preset_deep_black_white">Deep Black and White</string>
+    <string name="preset_deep_natural">Deep Natural</string>
+    <string name="preset_cool_amoled">Cool Amoled</string>
+    <string name="preset_extreme_amoled">Extreme Amoled</string>
+    <string name="preset_warm_amoled">Warm Amoled</string>
+    <string name="preset_hybrid_mamba">Hybrid Mamba</string>
+    <string name="preset_sir_banger">Sir Banger</string>
+    <string name="preset_gerard_extrem_cool">Gerard Extreme Cool</string>
+    <string name="preset_yoyoz808">Yoyoz808</string>
+    <string name="preset_purian">Purian</string>
+    <string name="preset_deep_black_colorful">Deep Black Colorful</string>
+    <string name="preset_vomer_deep_rich">Vomer Deep Rich</string>
+    <string name="preset_franco">Franco</string>
+    <string name="preset_wrinklefree_cool">WrinkleFree Cool</string>
+    <string name="preset_harley_tech">Harley-Tech</string>
+    <string name="preset_perfection">Perfection</string>
+    <string name="preset_banged_up">Banged up</string>
+    <string name="preset_sim_cooler">SimCooler</string>
+    <string name="preset_obsanity">Obsanity</string>
+    <string name="preset_obsanity_ips">Obsanity IPS</string>
+    <string name="kcal_presets" translatable="false">@string/presets_dialog_title</string>
+    <string name="kcal_reset">Reset</string>
+
+    <!-- Speaker & Microphone -->
+    <string name="category_speaker">Speaker &amp; Microphone</string>
+    <string name="ear_gain_title">Earpiece gain (Calls)</string>
+    <string name="ear_gain_summary">Define the amplitude of the earpiece speaker</string>
+    <string name="mic_gain_title">Microphone gain</string>
+    <string name="mic_gain_summary">Define the amplitude of the microphone</string>
+
+    <!-- USB -->
+    <string name="usb_title">USB</string> 
+    <string name="usb2_fc_title">USB 2.0 fast charge</string>
+    <string name="usb2_fc_summary">Force fast charging of up to 900mA in USB 2.0 mode</string>
+
+    <!-- Vibrator -->
+    <string name="category_vibrator">Vibrator</string>
+    <string name="vib_strength_title">System strength</string>
+    <string name="vib_strength_summary">Define the strength of the vibrator</string>
+    <string name="vib_call_strength_title">Call strength</string>
+    <string name="vib_call_strength_summary">Define the strength of the vibrator during an incoming call</string>
+    <string name="vib_notif_strength_title">Notification strength</string>
+    <string name="vib_notif_strength_summary">Define the strength of the vibrator during an incoming notification</string>
+</resources>

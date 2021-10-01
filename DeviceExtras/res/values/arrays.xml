@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2015-2016 The CyanogenMod Project
+     Copyright (C) 2017 The LineageOS Project
+     Copyright (C) 2014-2016 The OmniROM Project
+     Copyright (C) 2021 The Evolution X Project
+     Copyright (C) 2018-2021 crDroid Android Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+
+    <!-- Alert slider -->
+    <string-array name="notification_slider_usage_entries" translatable="false">
+        <item>@string/notification_slider_for_notification</item>
+        <item>@string/notification_slider_for_flashlight</item>
+        <item>@string/notification_slider_for_brightness</item>
+        <item>@string/notification_slider_for_rotation</item>
+        <item>@string/notification_slider_for_ringer</item>
+        <item>@string/notification_slider_for_notification_ringer</item>
+    </string-array>
+
+    <string-array name="notification_slider_usage_entry_values" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="notification_slider_mode_entries" translatable="false">
+        <item>@string/notification_slider_mode_total_silence</item>
+        <item>@string/notification_slider_mode_priority_only</item>
+        <item>@string/notification_slider_mode_none</item>
+    </string-array>
+
+    <string-array name="notification_slider_mode_entry_values" translatable="false">
+        <item>10</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
+
+    <string-array name="notification_slider_flashlight_entries" translatable="false">
+        <item>@string/notification_slider_flashlight_off</item>
+        <item>@string/notification_slider_flashlight_on</item>
+        <item>@string/notification_slider_flashlight_blink</item>
+    </string-array>
+
+    <string-array name="notification_slider_flashlight_entry_values" translatable="false">
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+    </string-array>
+
+    <string-array name="notification_slider_brightness_entries" translatable="false">
+        <item>@string/notification_slider_brightness_auto</item>
+        <item>@string/notification_slider_brightness_brightest</item>
+        <item>@string/notification_slider_brightness_darkest</item>
+    </string-array>
+
+    <string-array name="notification_slider_brightness_entry_values" translatable="false">
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+    </string-array>
+
+    <string-array name="notification_slider_rotation_entries" translatable="false">
+        <item>@string/notification_slider_rotation_auto</item>
+        <item>@string/notification_slider_rotation_portrait</item>
+        <item>@string/notification_slider_rotation_landscape_90</item>
+        <item>@string/notification_slider_rotation_landscape_270</item>
+    </string-array>
+
+    <string-array name="notification_slider_rotation_entry_values" translatable="false">
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+    </string-array>
+
+    <string-array name="notification_slider_ringer_entries" translatable="false">
+        <item>@string/notification_slider_ringer_normal</item>
+        <item>@string/notification_slider_ringer_vibrate</item>
+        <item>@string/notification_slider_ringer_silent</item>
+    </string-array>
+
+    <string-array name="notification_slider_ringer_entry_values" translatable="false">
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+    </string-array>
+
+    <string-array name="notification_ringer_slider_mode_entries" translatable="false">
+        <item>@string/notification_slider_mode_total_silence</item>
+        <item>@string/notification_slider_ringer_silent</item>
+        <item>@string/notification_slider_mode_priority_only</item>
+        <item>@string/notification_slider_ringer_vibrate</item>
+        <item>@string/notification_slider_mode_none</item>
+    </string-array>
+
+    <string-array name="notification_ringer_slider_mode_entry_values" translatable="false">
+        <item>60</item>
+        <item>65</item>
+        <item>62</item>
+        <item>64</item>
+        <item>63</item>
+    </string-array>
+
+    <!-- FPS Info -->
+    <string-array name="fps_info_color_entries" translatable="false">
+        <item>@string/fps_info_color_green</item>
+        <item>@string/fps_info_color_red</item>
+        <item>@string/fps_info_color_blue</item>
+        <item>@string/fps_info_color_yellow</item>
+        <item>@string/fps_info_color_black</item>
+        <item>@string/fps_info_color_accent</item>
+    </string-array>
+
+    <string-array name="fps_info_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="fps_info_position_entries" translatable="false">
+        <item>@string/fps_info_position_top_left</item>
+        <item>@string/fps_info_position_top_center</item>
+        <item>@string/fps_info_position_top_right</item>
+        <item>@string/fps_info_position_bottom_left</item>
+        <item>@string/fps_info_position_bottom_center</item>
+        <item>@string/fps_info_position_bottom_right</item>
+    </string-array>
+
+    <string-array name="fps_info_position_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <!-- kcal -->
+    <array name="preset_enteries">
+        <item>@string/preset_version_1</item>
+        <item>@string/preset_version_2</item>
+        <item>@string/preset_version_3</item>
+        <item>@string/preset_triluminous</item>
+        <item>@string/preset_deep_black_white</item>
+        <item>@string/preset_deep_natural</item>
+        <item>@string/preset_cool_amoled</item>
+        <item>@string/preset_extreme_amoled</item>
+        <item>@string/preset_warm_amoled</item>
+        <item>@string/preset_hybrid_mamba</item>
+        <item>@string/preset_sir_banger</item>
+        <item>@string/preset_gerard_extrem_cool</item>
+        <item>@string/preset_yoyoz808</item>
+        <item>@string/preset_purian</item>
+        <item>@string/preset_deep_black_colorful</item>
+        <item>@string/preset_vomer_deep_rich</item>
+        <item>@string/preset_franco</item>
+        <item>@string/preset_wrinklefree_cool</item>
+        <item>@string/preset_harley_tech</item>
+        <item>@string/preset_perfection</item>
+        <item>@string/preset_banged_up</item>
+        <item>@string/preset_sim_cooler</item>
+        <item>@string/preset_obsanity</item>
+        <item>@string/preset_obsanity_ips</item>
+    </array>
+
+    <array name="preset_values">
+        <!-- R, G, B, minimum, saturation, value, contrast, hue -->
+        <item>237 237 237 132 127 127 0</item>
+        <item>250 250 235 119 112 132 1520</item>
+        <item>240 240 240 125 127 127 0</item>
+        <item>256 250 251 158 136 132 1526</item>
+        <item>250 250 256 152 117 136 0</item>
+        <item>250 250 256 125 117 136 0</item>
+        <item>236 248 256 142 123 130 0</item>
+        <item>256 256 256 157 114 136 0</item>
+        <item>253 246 243 142 123 130 0</item>
+        <item>226 215 256 132 119 132 10</item>
+        <item>215 220 256 125 127 127 0</item>
+        <item>217 215 256 125 127 127 0</item>
+        <item>220 230 256 125 127 127 0</item>
+        <item>223 223 256 125 127 127 0</item>
+        <item>230 232 252 125 127 127 0</item>
+        <item>230 235 256 125 127 127 0</item>
+        <item>232 237 256 125 127 127 0</item>
+        <item>232 228 256 125 127 127 0</item>
+        <item>236 240 256 125 127 127 0</item>
+        <item>237 235 256 125 127 127 0</item>
+        <item>239 243 256 125 127 127 0</item>
+        <item>240 245 256 125 127 127 0</item>
+        <item>245 245 256 125 127 127 0</item>
+        <item>245 240 256 125 127 127 0</item>
+    </array>
+
+    <!-- Pickup gesture -->
+    <string-array name="pick_up_gesture_entries" translatable="false">
+        <item>@string/disabled</item>
+        <item>@string/pick_up_gesture_summary</item>
+        <item>@string/pick_up_wake_gesture_summary</item>
+    </string-array>
+
+    <string-array name="pick_up_gesture_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>
