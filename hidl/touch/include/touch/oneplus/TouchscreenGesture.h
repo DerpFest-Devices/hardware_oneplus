@@ -44,6 +44,7 @@ class TouchscreenGesture : public ITouchscreenGesture {
         const char* name;
         const char* path;
     } GestureInfo;
+    static const std::map<int32_t, GestureInfo> kGestureInfoMap;  // id -> info
 };
 
 }  // namespace implementation
