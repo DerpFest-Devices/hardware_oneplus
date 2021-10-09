@@ -116,6 +116,7 @@
             android:name=".PanelModeTileService"
             android:icon="@drawable/ic_panel_modes"
             android:label="@string/panel_modes_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE"/>
@@ -127,6 +128,7 @@
             android:name=".DCModeTileService"
             android:icon="@drawable/ic_dc_mode"
             android:label="@string/dc_mode_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -148,6 +150,7 @@
             android:name=".HBMModeTileService"
             android:icon="@drawable/ic_hbm_mode"
             android:label="@string/hbm_mode_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -175,6 +178,7 @@
             android:name=".doze.DozeTileService"
             android:icon="@drawable/ic_eye"
             android:label="@string/ambient_display_gestures_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -191,6 +195,7 @@
             android:name=".FPSTileService"
             android:icon="@drawable/ic_fps_overlay"
             android:label="@string/fps_info_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -202,6 +207,7 @@
             android:name=".GameModeTileService"
             android:icon="@drawable/ic_game_mode"
             android:label="@string/game_mode_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action
@@ -225,6 +231,7 @@
             android:name=".kcal.KCalTileService"
             android:icon="@drawable/ic_kcal"
             android:label="@string/device_kcal_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action
@@ -237,6 +244,7 @@
             android:name=".TouchboostTileService"
             android:icon="@drawable/ic_touchboost"
             android:label="@string/touchboost_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -248,6 +256,7 @@
             android:name=".USB2FastChargeTileService"
             android:icon="@drawable/ic_usb2_fc"
             android:label="@string/usb2_fc_title"
+            android:enabled="false"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action

@@ -57,6 +57,7 @@ import org.derp.device.DeviceExtras.doze.DozeSettingsActivity;
 import org.derp.device.DeviceExtras.kcal.KCalSettingsActivity;
 import org.derp.device.DeviceExtras.FileUtils;
 import org.derp.device.DeviceExtras.R;
+import org.derp.device.DeviceExtras.*;
 
 public class DeviceExtras extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -134,6 +135,7 @@ public class DeviceExtras extends PreferenceFragment
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Context context = this.getContext();
+        PackageManager pm = context.getPackageManager();
 
         // Slider Preferences
         if (isFeatureSupported(context, R.bool.config_deviceSupportsAlertSlider)) {
@@ -149,6 +151,8 @@ public class DeviceExtras extends PreferenceFragment
             mTouchboostModeSwitch.setEnabled(TouchboostModeSwitch.isSupported(this.getContext()));
             mTouchboostModeSwitch.setChecked(TouchboostModeSwitch.isCurrentlyEnabled(this.getContext()));
             mTouchboostModeSwitch.setOnPreferenceChangeListener(new TouchboostModeSwitch());
+
+            pm.setComponentEnabledSetting (new ComponentName(context, TouchboostTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
         else {
             findPreference(KEY_TOUCH_BOOST_SWITCH).setVisible(false);
@@ -176,7 +180,10 @@ public class DeviceExtras extends PreferenceFragment
 
         // Panel Modes
         display = display | isFeatureSupported(context, R.bool.config_deviceSupportsPanelModes);
-        if (!isFeatureSupported(context, R.bool.config_deviceSupportsPanelModes)) {
+        if (isFeatureSupported(context, R.bool.config_deviceSupportsPanelModes)) {
+            pm.setComponentEnabledSetting (new ComponentName(context, PanelModeTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        }
+        else {
             findPreference(KEY_PANEL_MODES).setVisible(false);
         }
 
@@ -187,6 +194,7 @@ public class DeviceExtras extends PreferenceFragment
             mDCModeSwitch.setEnabled(DCModeSwitch.isSupported(this.getContext()));
             mDCModeSwitch.setChecked(DCModeSwitch.isCurrentlyEnabled(this.getContext()));
             mDCModeSwitch.setOnPreferenceChangeListener(new DCModeSwitch());
+            pm.setComponentEnabledSetting (new ComponentName(context, DCModeTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
         else {
             findPreference(KEY_DC_SWITCH).setVisible(false);
@@ -199,6 +207,8 @@ public class DeviceExtras extends PreferenceFragment
             mHBMModeSwitch.setEnabled(HBMModeSwitch.isSupported(getContext()));
             mHBMModeSwitch.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceExtras.KEY_HBM_SWITCH, false));
             mHBMModeSwitch.setOnPreferenceChangeListener(this);
+
+            pm.setComponentEnabledSetting (new ComponentName(context, HBMModeTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
         else {
             findPreference(KEY_HBM_SWITCH).setVisible(false);
@@ -235,6 +245,8 @@ public class DeviceExtras extends PreferenceFragment
 
             mFpsInfoTextSizePreference = (CustomSeekBarPreference) findPreference(KEY_FPS_INFO_TEXT_SIZE);
             mFpsInfoTextSizePreference.setOnPreferenceChangeListener(this);
+
+            pm.setComponentEnabledSetting (new ComponentName(context, FPSTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
         else {
             getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_FPS));
@@ -246,6 +258,8 @@ public class DeviceExtras extends PreferenceFragment
             mGameModeSwitch.setEnabled(GameModeSwitch.isSupported(this.getContext()));
             mGameModeSwitch.setChecked(GameModeSwitch.isCurrentlyEnabled(this.getContext()));
             mGameModeSwitch.setOnPreferenceChangeListener(new GameModeSwitch());
+
+            pm.setComponentEnabledSetting (new ComponentName(context, GameModeTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
         else {
             getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_TOUCHSCREEN));
@@ -287,6 +301,8 @@ public class DeviceExtras extends PreferenceFragment
             mUSB2FastChargeModeSwitch.setEnabled(USB2FastChargeModeSwitch.isSupported(this.getContext()));
             mUSB2FastChargeModeSwitch.setChecked(USB2FastChargeModeSwitch.isCurrentlyEnabled(this.getContext()));
             mUSB2FastChargeModeSwitch.setOnPreferenceChangeListener(new USB2FastChargeModeSwitch());
+
+            pm.setComponentEnabledSetting (new ComponentName(context, USB2FastChargeTileService.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
         else {
             getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_USB));
