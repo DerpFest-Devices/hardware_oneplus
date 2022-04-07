@@ -48,6 +48,7 @@ using ::android::hardware::hidl_string;
 using ::android::sp;
 using ::vendor::oneplus::fingerprint::extension::V1_0::IVendorFingerprintExtensions;
 using ::vendor::oneplus::hardware::display::V1_0::IOneplusDisplay;
+
 struct BiometricsFingerprint : public IBiometricsFingerprint {
 public:
     BiometricsFingerprint();
@@ -85,7 +86,6 @@ private:
     std::mutex mClientCallbackMutex;
     sp<IBiometricsFingerprintClientCallback> mClientCallback;
     fingerprint_device_t *mDevice;
-    bool mFodCircleVisible;
     sp<IOneplusDisplay> mVendorDisplayService;
     sp<IVendorFingerprintExtensions> mVendorFpService;
 };
