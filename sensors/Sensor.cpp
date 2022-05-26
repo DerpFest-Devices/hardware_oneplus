@@ -242,9 +242,13 @@ UdfpsSensor::UdfpsSensor(int32_t sensorHandle, ISensorsEventCallback* callback)
         ALOGE("failed to open wait pipe: %d", rc);
     }
 
-    mPollFd = open("/sys/devices/platform/soc/a90000.i2c/i2c-4/4-0020/fp_irq", O_RDONLY);
+    mPollFd = open("/sys/class/drm/card0-DSI-1/notify_fppress", O_RDONLY);
     if (mPollFd < 0) {
-        ALOGE("failed to open poll fd: %d", mPollFd);
+        ALOGE("failed to open poll fd: %d, trying fallback", mPollFd);
+        mPollFd = open("/sys/devices/platform/soc/a90000.i2c/i2c-4/4-0020/fp_irq", O_RDONLY);
+        if (mPollFd < 0) {
+            ALOGE("failed to open poll fd: %d", mPollFd);
+        }
     }
 
     if (mWaitPipeFd[0] < 0 || mWaitPipeFd[1] < 0 || mPollFd < 0) {
