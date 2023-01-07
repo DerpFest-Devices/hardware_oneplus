@@ -220,7 +220,7 @@ Return<RequestStatus> BiometricsFingerprint::postEnroll() {
     mVendorFpService->updateStatus(OP_FINISH_FP_ENROLL);
     mVendorFpService->updateStatus(OP_ENABLE_FP_LONGPRESS);
 
-    return ErrorFilter(mDevice->post_enroll(mDevice));
+    return ErrorFilter(mDevice->cancel(mDevice));
 }
 
 Return<uint64_t> BiometricsFingerprint::getAuthenticatorId() {
