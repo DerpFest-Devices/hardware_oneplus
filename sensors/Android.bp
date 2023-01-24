@@ -4,9 +4,29 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+soong_config_module_type {
+    name: "oneplus_sensors_hal_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "ONEPLUS_MSMNILE_SENSORS",
+    value_variables: ["DOUBLE_TAP_PATH"],
+    properties: ["cppflags"],
+}
+
+oneplus_sensors_hal_cc_defaults {
+    name: "oneplus_sensors_hal_defaults",
+    soong_config_variables: {
+        DOUBLE_TAP_PATH: {
+            cppflags: ["-DDOUBLE_TAP_PATH=\"%s\""],
+	    conditions_default: {
+	        cppflags: ["-DDOUBLE_TAP_PATH=\"/sys/devices/platform/soc/c80000.i2c/i2c-5/5-0048/double_tap_pressed\""]
+            },
+        },
+    },
+}
+
 cc_library_shared {
     name: "sensors.oneplus",
-    defaults: ["hidl_defaults"],
+    defaults: ["hidl_defaults", "oneplus_sensors_hal_defaults"],
     srcs: [
         "Sensor.cpp",
         "SensorsSubHal.cpp",
@@ -31,5 +51,6 @@ cc_library_shared {
     cflags: [
         "-DLOG_TAG=\"sensors.oneplus\"",
     ],
+
     vendor: true,
 }
