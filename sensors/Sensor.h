@@ -129,7 +129,7 @@ class UdfpsSensor : public SysfsPollingOneShotSensor {
               static_cast<SensorType>(static_cast<int32_t>(SensorType::DEVICE_PRIVATE_BASE) + 1)) {}
 };
 
-const std::string kTsDoubleTapPressedPath = DOUBLE_TAP_PATH;
+const std::string kTsDoubleTapPressedPath = "/proc/touchpanel/i2c/double_tap_pressed";
 
 class DoubleTapSensor : public SysfsPollingOneShotSensor {
   public:
