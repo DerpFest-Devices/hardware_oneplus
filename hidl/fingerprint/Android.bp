@@ -7,6 +7,10 @@ cc_library_static {
     header_libs: [
         "generated_kernel_headers",
     ],
+    lto: {
+        thin: true,
+    },
+    whole_program_vtables: true,
 }
 
 cc_binary {
@@ -34,4 +38,8 @@ cc_binary {
         "vendor.oneplus.fingerprint.extension@1.0",
         "vendor.oneplus.hardware.display@1.0",
     ],
+    lto: {
+        thin: true,
+    },
+    whole_program_vtables: true,
 }
