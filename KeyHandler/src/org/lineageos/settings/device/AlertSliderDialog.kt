@@ -33,19 +33,20 @@ class AlertSliderDialog(context: Context) : Dialog(context, R.style.alert_slider
     private val textView by lazy { findViewById<TextView>(R.id.alert_slider_text) }
 
     init {
-        window!!.requestFeature(Window.FEATURE_NO_TITLE)
-        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        window.addFlags(
+        val windowSafe: Window? = window
+		windowSafe?.requestFeature(Window.FEATURE_NO_TITLE)
+        windowSafe?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        windowSafe?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        windowSafe?.addFlags(
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     or WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
                     or WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
         )
-        window.addPrivateFlags(WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        window.setType(WindowManager.LayoutParams.TYPE_VOLUME_OVERLAY)
-        window.attributes = window.attributes.apply {
+        windowSafe?.addPrivateFlags(WindowManager.LayoutParams.PRIVATE_FLAG_TRUSTED_OVERLAY)
+        windowSafe?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        windowSafe?.setType(WindowManager.LayoutParams.TYPE_VOLUME_OVERLAY)
+        windowSafe?.attributes = windowSafe?.attributes?.apply {
             format = PixelFormat.TRANSLUCENT
             layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
@@ -57,7 +58,8 @@ class AlertSliderDialog(context: Context) : Dialog(context, R.style.alert_slider
     }
 
     fun setState(position: Int, ringerMode: Int, flip: Boolean) {
-        window!!.attributes = window.attributes.apply {
+        val windowSafe: Window? = window
+		windowSafe?.attributes = windowSafe?.attributes?.apply {
             gravity = if (flip) {
                 Gravity.TOP or Gravity.LEFT
             } else {
@@ -66,7 +68,7 @@ class AlertSliderDialog(context: Context) : Dialog(context, R.style.alert_slider
 
             val f = context.resources.getFraction(R.fraction.alert_slider_dialog_y, 1, 1)
             val h = context.resources.getDimension(R.dimen.alert_slider_dialog_height).toInt()
-            val hv = h + dialogView.paddingTop + dialogView.paddingBottom
+            val hv = h + dialogView?.paddingTop!! + dialogView?.paddingBottom!!
 
             x = context.resources.displayMetrics.widthPixels / 100
             y = ((context.resources.displayMetrics.heightPixels * f) - (hv * 0.5)).toInt()
@@ -82,7 +84,7 @@ class AlertSliderDialog(context: Context) : Dialog(context, R.style.alert_slider
             }
         }
 
-        frameView.setBackgroundResource(when (position) {
+        frameView?.setBackgroundResource(when (position) {
             KeyHandler.POSITION_TOP -> if (flip) {
                 R.drawable.alert_slider_top_flip
             } else {
@@ -96,7 +98,7 @@ class AlertSliderDialog(context: Context) : Dialog(context, R.style.alert_slider
             }
         })
 
-        iconView.setImageResource(when (ringerMode) {
+        iconView?.setImageResource(when (ringerMode) {
             AudioManager.RINGER_MODE_SILENT -> R.drawable.ic_volume_ringer_mute
             AudioManager.RINGER_MODE_VIBRATE -> R.drawable.ic_volume_ringer_vibrate
             AudioManager.RINGER_MODE_NORMAL -> R.drawable.ic_volume_ringer
@@ -106,7 +108,7 @@ class AlertSliderDialog(context: Context) : Dialog(context, R.style.alert_slider
             else -> R.drawable.ic_info
         })
 
-        textView.setText(when (ringerMode) {
+        textView?.setText(when (ringerMode) {
             AudioManager.RINGER_MODE_SILENT -> R.string.alert_slider_mode_silent
             AudioManager.RINGER_MODE_VIBRATE -> R.string.alert_slider_mode_vibration
             AudioManager.RINGER_MODE_NORMAL -> R.string.alert_slider_mode_normal
