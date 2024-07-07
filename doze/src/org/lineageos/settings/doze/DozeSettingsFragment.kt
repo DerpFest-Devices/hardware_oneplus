@@ -18,11 +18,11 @@ import com.android.settingslib.widget.MainSwitchPreference
 
 class DozeSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
     CompoundButton.OnCheckedChangeListener {
-    private lateinit var alwaysOnDisplayPreference: SwitchPreference
+    private lateinit var alwaysOnDisplayPreference: SwitchPreferenceCompat
     private lateinit var switchBar: MainSwitchPreference
 
     private var pickUpPreference: ListPreference? = null
-    private var pocketPreference: SwitchPreference? = null
+    private var pocketPreference: SwitchPreferenceCompat? = null
 
     private val handler = Handler(Looper.getMainLooper())
 
