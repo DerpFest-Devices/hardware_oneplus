@@ -11,14 +11,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.CompoundButton
-import android.widget.CompoundButton.OnCheckedChangeListener
-import android.widget.Switch
 import androidx.preference.*
 
 import com.android.settingslib.widget.MainSwitchPreference
 
 class DozeSettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeListener,
-    OnCheckedChangeListener {
+    CompoundButton.OnCheckedChangeListener {
     private lateinit var alwaysOnDisplayPreference: SwitchPreference
     private lateinit var switchBar: MainSwitchPreference
 
