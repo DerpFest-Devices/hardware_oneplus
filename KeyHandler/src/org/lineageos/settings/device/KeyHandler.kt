@@ -110,8 +110,6 @@ class KeyHandler : Service() {
             else -> return
         }
 
-        val display = sharedPreferences.getString(ALERT_SLIDER_NOTIFICATION, "2")!!.toInt()
-
         executorService.submit {
             when (mode) {
                 AudioManager.RINGER_MODE_SILENT -> {
@@ -138,7 +136,6 @@ class KeyHandler : Service() {
                 }
             }
             vibrateIfNeeded(mode)
-            sendNotification(position, mode, display)
         }
     }
 
@@ -152,24 +149,15 @@ class KeyHandler : Service() {
         }
     }
 
-    private fun sendNotification(position: Int, mode: Int, display: Int) {
-        sendBroadcast(Intent(CHANGED_ACTION).apply {
-            putExtra("position", position)
-            putExtra("mode", mode)
-            putExtra("display", display)
-        })
-    }
-
     companion object {
         private const val TAG = "KeyHandler"
 
         // Slider key positions
-        const val POSITION_TOP = 1
-        const val POSITION_MIDDLE = 2
-        const val POSITION_BOTTOM = 3
+        private const val POSITION_TOP = 1
+        private const val POSITION_MIDDLE = 2
+        private const val POSITION_BOTTOM = 3
 
         // Preference keys
-        private const val ALERT_SLIDER_NOTIFICATION = "config_notifications"
         private const val ALERT_SLIDER_TOP_KEY = "config_top_position"
         private const val ALERT_SLIDER_MIDDLE_KEY = "config_middle_position"
         private const val ALERT_SLIDER_BOTTOM_KEY = "config_bottom_position"
@@ -177,9 +165,9 @@ class KeyHandler : Service() {
 
         // ZEN constants
         private const val ZEN_OFFSET = 2
-        const val ZEN_PRIORITY_ONLY = 3
-        const val ZEN_TOTAL_SILENCE = 4
-        const val ZEN_ALARMS_ONLY = 5
+        private const val ZEN_PRIORITY_ONLY = 3
+        private const val ZEN_TOTAL_SILENCE = 4
+        private const val ZEN_ALARMS_ONLY = 5
 
         // Vibration attributes
         private val HARDWARE_FEEDBACK_VIBRATION_ATTRIBUTES =
@@ -188,8 +176,5 @@ class KeyHandler : Service() {
         // Vibration effects
         private val MODE_NORMAL_EFFECT = VibrationEffect.get(VibrationEffect.EFFECT_HEAVY_CLICK)
         private val MODE_VIBRATION_EFFECT = VibrationEffect.get(VibrationEffect.EFFECT_DOUBLE_CLICK)
-
-        // Intent actions
-        const val CHANGED_ACTION = "org.lineageos.settings.UPDATE_SETTINGS"
     }
 }
