@@ -30,6 +30,8 @@ class AlertSliderPlugin : OverlayPlugin {
 
     private val updateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            if (!::handler.isInitialized) return
+            
             when (intent.action) {
                 KeyHandler.CHANGED_ACTION -> {
                     val display = intent.getIntExtra("display", SHOW_RIGHT)
@@ -61,7 +63,9 @@ class AlertSliderPlugin : OverlayPlugin {
         pluginContext.unregisterReceiver(updateReceiver)
     }
 
-    override fun setup(statusBar: View, navBar: View) {}
+    override fun setup(statusBar: View?, navBar: View?) {
+        // No-op: This plugin doesn't need to interact with status bar or nav bar
+    }
 
     private inner class NotificationHandler(context: Context) : Handler(Looper.getMainLooper()) {
         private var dialog = AlertSliderDialog(context)
